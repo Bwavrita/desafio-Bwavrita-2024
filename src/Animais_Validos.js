@@ -1,5 +1,5 @@
 export class AnimaisValidos {
-    constructor(animal) {
+    constructor() {
         this._animalValidos = { // Object contendo todas os animais valido, apos isto criar um metodo para validar animas
             leao: {
                 tamanho: 3,
@@ -32,7 +32,22 @@ export class AnimaisValidos {
                 carnivoro: false
             }
         };
-        this.animal = animal;
     }
+
+    getTamanhoAnimal(animal){
+        animal = animal.toLowerCase();
+        return this._animalValidos[animal]?.tamanho || 0; // Retorna 0 se o animal não for encontrado;
+    }
+    
+    ehValido(animal) {
+        animal = animal.toLowerCase();
+        return this._animalValidos.hasOwnProperty(animal);
+    }
+    
+    getBioma(animal){
+        animal = animal.toLowerCase();
+        return this._animalValidos[animal].bioma;
+    }
+
 
 }
