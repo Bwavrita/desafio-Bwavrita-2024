@@ -49,5 +49,9 @@ export class AnimaisValidos {
         return this._animalValidos[animal].bioma;
     }
 
+    getAnimal(animal){
+        return this._animalValidos[animal];
+    }
+
 
 }

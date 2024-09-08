@@ -1,3 +1,3 @@
 import { RecintosZoo } from "./recintos-zoo.js";
 
-console.log(new RecintosZoo().analisaRecintos("leao",1));
+console.log(new RecintosZoo().analisaRecintos("hipopotamo",1));

@@ -7,35 +7,35 @@ class RecintosZoo {
                 bioma: ["savana"],
                 tamanhoTotal: 10,
                 animais: ["macaco","macaco","macaco"],
-                recintoLivre:10
+                tamanhoLivre:10
             },
             recinto_2:{
                 cod: 2,
                 bioma: ["floresta"],
                 tamanhoTotal: 5,
                 animais: [],
-                recintoLivre:5
+                tamanhoLivre:5
             },
             recinto_3:{
                 cod: 3,
                 bioma: ["savana","rio"],
                 tamanhoTotal: 7,
                 animais: ["gazela"],
-                recintoLivre:7
+                tamanhoLivre:7
             },
             recinto_4:{
                 cod: 4,
                 bioma: ["rio"],
                 tamanhoTotal: 8,
                 animais: [],
-                recintoLivre:8
+                tamanhoLivre:8
             },
             recinto_5:{
                 cod: 5,
                 bioma: ["savana"],
                 tamanhoTotal: 9,
                 animais: ["leao"],
-                recintoLivre:9
+                tamanhoLivre:9
             }
         };
         this.animais = new AnimaisValidos();
@@ -50,40 +50,71 @@ class RecintosZoo {
             recinto.tamanhoLivre = recinto.tamanhoTotal - tamOcupado;
         });
     }
-    recintosViaveis(animal, tam) {
+    recintosViaveis(animal, quantidade) {
         const recintosViaveis = [];
-        const biomasAnimal = this.animais.getBioma(animal); // Obtém os biomas compatíveis com o animal
+        const biomasAnimal = this.animais.getBioma(animal);
+        const tamanhoNecessario = this.animais.getTamanhoAnimal(animal) * quantidade;
+        const animalInfo = this.animais.getAnimal(animal);
+        const isCarnivoro = this.animais.getAnimal(animal).carnivoro;
     
         Object.values(this._recintosDisponiveis).forEach(recinto => {
             const biomaCompativel = recinto.bioma.some(biomaRecinto => biomasAnimal.includes(biomaRecinto));
-            const temEspaco = recinto.recintoLivre >= tam;//arrumar para verificar todos os animai
-                                                           //pensei num metodo se tiver um animal diferente ele aumenta
-            //verificar os outros elementos,
-            if(animal.carnivoro == true){
-                //verifica se tiver algum outro animal, se tiver não é valido pois carnivores somente com a mesma especie
+            let temEspaco;
+            if(recinto.animais.length != recinto.animais.filter(a => a === animal).length){
+                temEspaco = recinto.tamanhoLivre >= tamanhoNecessario + 1;
+            }else{
+                temEspaco = recinto.tamanhoLivre >= tamanhoNecessario;
             }
-            if(animal == "hipopotamo"){
-                //verificar se tem um animal tera que ser savana e rio
-            }
-            if(animal == "macaco" && tam == 1){
-                //verificar se não irar fica sozinho, se tiver outra especie vai tar td bem
-                //caso contrario não vai dar
-            }
-            if (biomaCompativel && temEspaco) {
-                recintosViaveis.push(recinto);
-            }
+            let valido = true;  
+
+                if(isCarnivoro){
+                    let quantidade = recinto.animais.filter(a => a === animal).length;
+                    if(recinto.animais.length != quantidade){
+                        valido = false;
+                    }
+                }else{
+                    let quantidade = recinto.animais.filter(a => this.animais.getAnimal(a).carnivoro === true).length;
+                    if(quantidade != 0){
+                        valido = false;
+                    }
+                }
+                
+                if(animal === "macaco" && quantidade == 1){
+                    let quantidade = recinto.animais.filter(a => a).length;
+                    if(quantidade == 0){
+                        valido = false;
+                    }
+                }
+
+                if(animal === "hipopotamo"){
+                    let quantidade = recinto.animais.filter(a => a != animal).length
+                    if(quantidade != 0 && recinto.bioma.filter(a => a === "selva" || "rio").length != 2){
+                        valido = false;
+                    }
+                }
+
+                if(temEspaco && valido && biomaCompativel){
+                    recintosViaveis.push(recinto);
+                }
         });
     
         return recintosViaveis;
     }
     
+    
+    
     analisaRecintos(animal, quantidade) {
+        animal = animal.toLowerCase();
+        if(quantidade <= 0){
+            console.log("Quantidade inválida");
+            return null;
+        }
         if (this.animais.ehValido(animal)) {
             let tam = this.animais.getTamanhoAnimal(animal) * quantidade;
             this.calcularTamanhoLivre();
 
 
-            console.log(this._recintosDisponiveis);
+            console.log(this.recintosViaveis(animal,quantidade));
     
             console.log(`O animal ${animal} é válido.`);
             console.log(`Tamanho necessário: ${tam}`);
