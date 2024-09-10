@@ -101,11 +101,12 @@ class RecintosZoo {
             }
     
             if (animal === "hipopotamo") {
+                const biomasDoRecinto = recinto.bioma;
                 let quantidadeNaoHipopotamos = recinto.animais.filter(a => a != animal).length;
-                if (quantidadeNaoHipopotamos != 0 && recinto.bioma.filter(a => a === "selva" || a === "rio").length != 2) {
+                if (quantidadeNaoHipopotamos != 0 && !(biomasDoRecinto.includes("savana") && biomasDoRecinto.includes("rio"))) {
                     valido = false;
                 }
-            }
+            }            
 
             if (temEspaco && valido && biomaCompativel) {
                 recintosViaveis.push(`Recinto ${recinto.cod} (espaço livre: ${ recinto.tamanhoLivre - espaco} total: ${recinto.tamanhoTotal})`);
