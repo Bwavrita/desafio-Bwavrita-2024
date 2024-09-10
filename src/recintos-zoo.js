@@ -55,7 +55,7 @@ class RecintosZoo {
     analisaRecintos(animal, quantidade) {
         animal = animal.toLowerCase();
     
-        if (quantidade <= 0) {
+        if (isNaN(quantidade) || quantidade <= 0) {
             return { erro: "Quantidade inválida", recintosViaveis: null };
         }
     
