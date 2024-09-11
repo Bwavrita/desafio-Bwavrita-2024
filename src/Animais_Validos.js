@@ -1,32 +1,32 @@
 export class AnimaisValidos {
     constructor() {
         this._animalValidos = {
-            leao: {
+            LEAO: {
                 tamanho: 3,
                 bioma: ["savana"],
                 carnivoro: true
             },
-            leopardo: {
+            LEOPARDO: {
                 tamanho: 2,
                 bioma: ["savana"],
                 carnivoro: true
             },
-            crocodilo: {
+            CROCODILO: {
                 tamanho: 3,
                 bioma: ["rio"],
                 carnivoro: true
             },
-            macaco: {
+            MACACO: {
                 tamanho: 1,
                 bioma: ["savana", "floresta"],
                 carnivoro: false
             },
-            gazela: {
+           GAZELA: {
                 tamanho: 2,
                 bioma: ["savana"],
                 carnivoro: false
             },
-            hipopotamo: {
+            HIPOPOTAMO: {
                 tamanho: 4,
                 bioma: ["savana", "rio"],
                 carnivoro: false
